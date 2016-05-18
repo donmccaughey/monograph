@@ -1,0 +1,13 @@
+*~
+.DS_Store
+.idea
+aclocal.m4
+autoscan.log
+autom4te.cache
+build-aux
+config.h.in
+configure
+Makefile.in
+tmp
+xcuserdata
+
