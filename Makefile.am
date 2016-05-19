@@ -1,5 +1,5 @@
-bin_PROGRAMS = mg
-mg_SOURCES = src/main.c
+bin_PROGRAMS = 1g
+1g_SOURCES = src/main.c
 
 EXTRA_DIST = LICENSE README.md
 
