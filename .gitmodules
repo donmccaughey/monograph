@@ -1,0 +1,3 @@
+[submodule "libmonograph"]
+	path = libmonograph
+	url = ../libmonograph

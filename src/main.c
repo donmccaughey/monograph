@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <monograph/monograph.h>
+
 #include "options.h"
 
 
@@ -15,11 +17,31 @@ main(int argc, char *argv[])
     }
 
     if (mg_options_should_exit(options)) {
-        return mg_options_exit_status(options);
+        int exit_status = mg_options_exit_status(options);
+        mg_options_free(options);
+        return exit_status;
     }
 
-    printf("Hello world!\n");
+    struct mg_graph *graph = mg_graph_alloc_from_file(options->abs_path);
+    if (!graph) {
+        perror(options->command_name);
+        mg_options_free(options);
+        return EXIT_FAILURE;
+    }
 
+    struct mg_canvas *canvas = mg_canvas_alloc(mg_size_make(80, 24));
+    if (!canvas) {
+        perror(options->command_name);
+        mg_graph_free(graph);
+        mg_options_free(options);
+        return EXIT_FAILURE;
+    }
+    
+    mg_graph_draw(graph, canvas);
+    printf("%s", canvas->text);
+
+    mg_canvas_free(canvas);
+    mg_graph_free(graph);
     mg_options_free(options);
     return EXIT_SUCCESS;
 }

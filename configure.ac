@@ -26,5 +26,9 @@ AC_C_INLINE
 AC_CHECK_FUNCS([strdup])
 
 AC_CONFIG_FILES([Makefile])
+
+# Subpackages
+AC_CONFIG_SUBDIRS([libmonograph])
+
 AC_OUTPUT
 
