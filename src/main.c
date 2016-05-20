@@ -1,6 +1,6 @@
 #include <libgen.h>
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h> 
 
 #include <monograph/monograph.h>
 
@@ -28,8 +28,8 @@ main(int argc, char *argv[])
         mg_options_free(options);
         return EXIT_FAILURE;
     }
-
-    struct mg_canvas *canvas = mg_canvas_alloc(mg_size_make(80, 24));
+    
+    struct mg_canvas *canvas = mg_canvas_alloc(options->canvas_size);
     if (!canvas) {
         perror(options->command_name);
         mg_graph_free(graph);

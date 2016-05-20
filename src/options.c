@@ -8,8 +8,13 @@
 #include <string.h>
 #include <unistd.h>
 
+#include <sys/ioctl.h>
+
 #include "config.h"
 
+
+static int const default_canvas_width = 78;
+static int const default_canvas_height = 24;
 
 static struct option long_options[] = {
     {
@@ -131,6 +136,9 @@ mg_options_alloc(int argc, char *argv[])
 {
     struct mg_options *options = calloc(1, sizeof(struct mg_options));
     if (!options) return NULL;
+    
+    options->canvas_size.width = default_canvas_width;
+    options->canvas_size.height = default_canvas_height;
 
     char *command_name = basename(argv[0]);
     if (!command_name) {
@@ -154,6 +162,17 @@ mg_options_alloc(int argc, char *argv[])
     if (-1 == result) {
         mg_options_free(options);
         return NULL;
+    }
+
+    if (isatty(STDOUT_FILENO)) {
+        struct winsize winsize;
+        result = ioctl(STDOUT_FILENO, TIOCGWINSZ, &winsize);
+        if (-1 == result) {
+            mg_options_free(options);
+            return NULL;
+        }
+        options->canvas_size.width = (int)winsize.ws_col;
+        options->canvas_size.height = (int)winsize.ws_row - 2;
     }
 
     return options;

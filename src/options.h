@@ -4,9 +4,12 @@
 
 #include <stdbool.h>
 
+#include <monograph/monograph.h>
+
 
 struct mg_options {
     char *abs_path;
+    struct mg_size canvas_size;
     char *command_name;
     bool error;
     char *given_path;
